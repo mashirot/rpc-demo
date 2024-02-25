@@ -13,5 +13,6 @@ fun main() {
     logger.info { "Subscriber running" }
 
     val helloService = ProxyFactory.getProxy(HelloService::class.java)
-    println(helloService.sum(listOf(1, 2, 3)))
+    println(helloService.hello("Mashiro"))
+    helloService.hello2("Mashiro")
 }

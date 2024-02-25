@@ -16,5 +16,5 @@ fun main() {
 
     LocalRegister.register(HelloService::class.java, HelloServiceImpl::class.java)
     val rpcServer = RpcServer()
-    rpcServer.start("127.0.0.1", 6657)
+    rpcServer.start("127.0.0.1", 9999)
 }

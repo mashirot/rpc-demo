@@ -10,14 +10,14 @@ import java.lang.reflect.Proxy
  */
 object ProxyFactory {
     fun <T> getProxy(serviceClazz: Class<T>): T {
-        return Proxy.newProxyInstance(
+        return serviceClazz.cast(Proxy.newProxyInstance(
             serviceClazz.classLoader,
             arrayOf(serviceClazz)
         ) { _, method, args ->
             val invocation = Invocation(serviceClazz.name, method.name, method.parameterTypes, args)
             val rpcClient = RpcClient()
-            val response = rpcClient.send("127.0.0.1", 6657, invocation)
-            response.data
-        } as T
+            val response = rpcClient.send("127.0.0.1", 9999, invocation)
+            if (response.clazz == Void.TYPE) Unit else response.clazz.cast(response.data)
+        })
     }
 }

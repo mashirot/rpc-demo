@@ -3,6 +3,7 @@ package io.sakurasou.client
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.ChannelInitializer
+import io.netty.channel.ChannelOption
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioSocketChannel
 import io.netty.handler.logging.LogLevel
@@ -20,12 +21,13 @@ import io.sakurasou.protocol.ResponseHandler
 class RpcClient {
     private val logger = KotlinLogging.logger {}
     fun send(host: String, port: Int, content: Content): Response {
-        val eventLoopGroup = NioEventLoopGroup()
+        val eventLoopGroup = NioEventLoopGroup(2)
         val responsePromise = DefaultPromise<Response>(eventLoopGroup.next())
         try {
             val channelFuture = Bootstrap()
                 .group(eventLoopGroup)
                 .channel(NioSocketChannel::class.java)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
                 .handler(object : ChannelInitializer<NioSocketChannel>() {
                     override fun initChannel(ch: NioSocketChannel) {
                         ch.pipeline()

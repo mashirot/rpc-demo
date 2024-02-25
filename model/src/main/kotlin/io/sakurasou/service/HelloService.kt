@@ -6,7 +6,6 @@ package io.sakurasou.service
  */
 interface HelloService {
     fun hello(name: String): String
-    fun hello2(name: String): String
-    fun hello3(name: String): String
+    fun hello2(name: String)
     fun sum(nums: List<Int>): Int
 }
